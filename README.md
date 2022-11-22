@@ -1,16 +1,5 @@
-# Complete Bone Meal
-Make Bone Meal applicable to *all* growables!
+# Randomized Default Fireworks
 
-The new "Bone Meal"-able crops include:
-- Cactus: Grows 2 blocks taller
-   - Not limited to 3 blocks tall, like when grown naturally
-- Vines: Spreads further outward
-- Nether Wart: Increases growth stage
-- Sugar Cane: Grows 2 blocks taller
-   - Not limited to 3 blocks tall, like when grown naturally
-- Chorus Flowers: Generates a grown Chorus Flower tree
-- Coral Blocks: Generates a random Coral structure (if underwater)
+Make those sad, empty default fireworks go away! **Note** that randomized fireworks will *not* generate if you are in flight with an Elytra - but they still work in Dispensers!
 
-The mod also has a config to toggle functionality for any individual growable.
-
-![](https://i.imgur.com/DR3BoNP.png)
+[Demo](https://i.imgur.com/CjTB6AL.mp4)
