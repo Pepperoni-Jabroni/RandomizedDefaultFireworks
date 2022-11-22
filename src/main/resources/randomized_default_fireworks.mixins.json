@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "pepjebs.randomized_default_fireworks.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "FireworkRocketEntityRandomizer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
