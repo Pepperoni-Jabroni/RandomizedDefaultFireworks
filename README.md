@@ -9,7 +9,7 @@
 </p>
 
 ## 📖 About
-**Note** that randomized fireworks will *not* generate if you are in flight with an Elytra - but they still work in Dispensers!
+This mod makes Fireworks launched without any NBT data (e.g. crafted w/o Firework Stars) "automagically" populate with a random valid NBT Explosion. **Note** that randomized fireworks will *not* generate if you are in flight with an Elytra - but they still work in Dispensers!
 
 ## 📃 Changelog
 Changelogs are available [at the GitHub Releases section](https://github.com/Pepperoni-Jabroni/RandomizedDefaultFireworks/releases)
