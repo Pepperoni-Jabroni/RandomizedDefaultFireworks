@@ -11,10 +11,6 @@
 ## 📖 About
 **Note** that randomized fireworks will *not* generate if you are in flight with an Elytra - but they still work in Dispensers!
 
-## ⛓ Dependencies
-- Required:
-   - [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
-   
 ## 📃 Changelog
 Changelogs are available [at the GitHub Releases section](https://github.com/Pepperoni-Jabroni/RandomizedDefaultFireworks/releases)
    
