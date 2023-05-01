@@ -36,7 +36,7 @@ public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
     )
     public void randomizeItemStack(World world, double x, double y, double z, ItemStack stack, CallbackInfo ci) {
         if (!stack.isEmpty()) {
-            this.dataTracker.set(ITEM, randomizerImpl(stack));
+            this.dataTracker.set(ITEM, randomizerImpl(stack.copy()));
         }
     }
 
@@ -54,7 +54,8 @@ public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
     }
 
     private static boolean needsEnriching(ItemStack stack) {
-        return !stack.hasNbt() || !stack.getNbt().contains("Fireworks");
+        return !stack.hasNbt() || !stack.getNbt().contains("Fireworks")
+                || !stack.getNbt().getCompound("Fireworks").contains("Explosions");
     }
 
     private static ItemStack randomizerImpl(ItemStack stack) {
@@ -63,9 +64,14 @@ public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
             var topNbt = stack.getNbt();
             if (topNbt == null)
                 topNbt = new NbtCompound();
-            NbtCompound subNbt = new NbtCompound();
-            subNbt.put("Explosions", generateRandomExplosions());
-            topNbt.put("Fireworks", subNbt);
+            NbtCompound fireworks;
+            if (topNbt.contains("Fireworks")) {
+                fireworks = topNbt.getCompound("Fireworks");
+            } else {
+                fireworks = new NbtCompound();
+            }
+            fireworks.put("Explosions", generateRandomExplosions());
+            topNbt.put("Fireworks", fireworks);
             copy.setNbt(topNbt);
         }
         return copy;
