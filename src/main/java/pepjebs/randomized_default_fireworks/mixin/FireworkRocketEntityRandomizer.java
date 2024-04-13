@@ -18,17 +18,18 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import pepjebs.randomized_default_fireworks.RandomizedDefaultFireworksMod;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Mixin(FireworkRocketEntity.class)
 public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
 
     @Shadow @Final
     private static TrackedData<ItemStack> ITEM;
-
-    private static final Logger logger = LogManager.getLogger("test");
 
     @Inject(
             method = "<init>(Lnet/minecraft/world/World;DDDLnet/minecraft/item/ItemStack;)V",
@@ -47,7 +48,9 @@ public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
     public void unrandomizeIfFlying(World world, ItemStack stack, LivingEntity li, CallbackInfo ci) {
         // So if we just set the randomized firework in the fn above, but the player is flying,
         // we actually want to un-set the randomized firework
-        if (needsEnriching(stack) && li.isFallFlying()) {
+        boolean overrideShouldExplode = RandomizedDefaultFireworksMod.CONFIG != null
+                && RandomizedDefaultFireworksMod.CONFIG.generateDuringElytra;
+        if (!overrideShouldExplode && needsEnriching(stack) && li.isFallFlying()) {
             stack.removeSubNbt("Fireworks");
             this.dataTracker.set(ITEM, stack);
         }
@@ -114,13 +117,18 @@ public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
         return colors;
     }
 
-    // Don't allow black-and-white colors in our colorful fireworks shows :)
     private static int getRandomDyeColor(Random random) {
-        DyeColor c = DyeColor.BLACK;
-        while (c.compareTo(DyeColor.BLACK) == 0 || c.compareTo(DyeColor.GRAY) == 0
-                || c.compareTo(DyeColor.LIGHT_GRAY) == 0 || c.compareTo(DyeColor.WHITE) == 0) {
-            c = DyeColor.byId(random.nextInt(16));
+        DyeColor c = null;
+        String blocklistColors = RandomizedDefaultFireworksMod.DEFAULT_BLOCKLIST_COLORS;
+        if (RandomizedDefaultFireworksMod.CONFIG != null) {
+            blocklistColors = RandomizedDefaultFireworksMod.CONFIG.blocklistColors;
         }
+        var idsToAvoid = Arrays.stream(blocklistColors.split(","))
+                .map(col -> DyeColor.byName(col, DyeColor.WHITE).getId())
+                .collect(Collectors.toSet());
+        do {
+            c = DyeColor.byId(random.nextInt(16));
+        } while(idsToAvoid.contains(c.getId()));
         return c.getFireworkColor();
     }
 

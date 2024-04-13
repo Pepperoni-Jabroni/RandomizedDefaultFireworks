@@ -1,0 +1,7 @@
+{
+  "text.autoconfig.randomized_default_fireworks.title": "Randomized Default Fireworks Settings",
+  "text.autoconfig.randomized_default_fireworks.option.generateDuringElytra": "Generate During Elytra",
+  "text.autoconfig.randomized_default_fireworks.option.generateDuringElytra.@Tooltip": "If enabled, default Fireworks will explode even during Elytra flight.",
+  "text.autoconfig.randomized_default_fireworks.option.blocklistColors": "Blocklist Colors",
+  "text.autoconfig.randomized_default_fireworks.option.blocklistColors.@Tooltip": "Comma-separated list of dye colors to avoid when creating Explosions."
+}
