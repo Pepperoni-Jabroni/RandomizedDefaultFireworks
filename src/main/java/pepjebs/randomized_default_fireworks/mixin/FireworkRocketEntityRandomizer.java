@@ -51,7 +51,9 @@ public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
         boolean overrideShouldExplode = RandomizedDefaultFireworksMod.CONFIG != null
                 && RandomizedDefaultFireworksMod.CONFIG.generateDuringElytra;
         if (!overrideShouldExplode && needsEnriching(stack) && li.isFallFlying()) {
-            stack.removeSubNbt("Fireworks");
+            if (stack.hasNbt() && stack.getSubNbt("Fireworks") != null) {
+                stack.getSubNbt("Fireworks").remove("Explosions");
+            }
             this.dataTracker.set(ITEM, stack);
         }
     }
@@ -82,6 +84,17 @@ public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
 
     private static NbtList generateRandomExplosions() {
         Random random = new Random();
+        NbtList list = new NbtList();
+        list.add(generateRandomExplosion(random));
+        if (random.nextBoolean()) {
+            for (int i = 0; i < random.nextInt(2) + 1; i++) {
+                list.add(generateRandomExplosion(random));
+            }
+        }
+        return list;
+    }
+
+    private static NbtCompound generateRandomExplosion(Random random) {
         NbtCompound comp = new NbtCompound();
         // Randomize Colors
         comp.putIntArray("Colors", getRandomColors(random, 1));
@@ -97,9 +110,7 @@ public abstract class FireworkRocketEntityRandomizer extends ProjectileEntity {
         if (randomFlickerTrail == 8 || randomFlickerTrail == 9) {
             comp.putBoolean("Flicker", true);
         }
-        NbtList list = new NbtList();
-        list.add(comp);
-        return list;
+        return comp;
     }
 
     private static ArrayList<Integer> getRandomColors(Random random, int probChance) {
